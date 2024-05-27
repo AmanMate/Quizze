@@ -1,0 +1,19 @@
+td {
+    margin: 10px 0px
+}
+
+table {
+    margin: auto
+}
+
+.analytics {
+    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.5);
+}
+
+.page {
+    position: absolute;
+    left: 266px;
+    background: #EDEDED;
+    width: 80%;
+    height: 100vh;
+}
