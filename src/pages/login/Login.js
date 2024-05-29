@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import axios from "axios"
 import { useNavigate, Link} from "react-router-dom";
 import "./Login.css";
@@ -51,7 +51,7 @@ export default function Login() {
           password: password,
         })
       })
-      if(res.status=200){
+      if(res.status(200)){
         navigate("/dashboard");
       }
     }
