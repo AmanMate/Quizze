@@ -14,6 +14,10 @@
     z-index: 3;
 }
 
+div.modal-container{
+    
+}
+
 .quiz-name-type {
     background: white;
     margin: 100px 500px;
@@ -45,7 +49,7 @@ input::placeholder {
 .quiz-name {
     margin: 10px 26px;
     width: 212px;
-    text-align: center;
+    text-align: left;
     font-size: 23px;
     color: #757575
 }
@@ -87,5 +91,139 @@ input::placeholder {
 
 .continue {
     background-color: #60B84B;
+
+}
+
+div.inline-question{
+    width: 673px;
+    height: 50px;
+    top: 220px;
+    left: 311px;
+    gap: 0px;
+    border-radius: 10px 0px 0px 0px;
+    opacity: 0px;  
+}
+
+
+input.inline-question{
+    size: 500px;
+}
+
+input.radio{
+    width: 19px;
+    height: 19px;
+    top: 441px;
+    left: 269px;
+    gap: 0px;
+    opacity: 0px;
+
+}
+
+div.question-option{
+    width: 845px;
+    height: 671px;
+    top: 83px;
+    left: 217px;
+    gap: 0px;
+    opacity: 0px;    
+}
+
+.action-buttons{
+    
+
+}
+
+input.text{
+    width: 296px;
+    height: 50px;
+    top: 361px;
+    left: 311px;
+    gap: 0px;
+    border-radius: 10px 0px 0px 0px;
+    opacity: 0px;
+
+}
+
+input.optionradio{
+    width: 19px;
+    height: 19px;
+    top: 303px;
+    left: 499px;
+    gap: 0px;
+    opacity: 0px;
+
+}
+
+p.optionfont{
+    width: 122px;
+    height: 30px;
+    top: 298px;
+    left: 329px;
+    gap: 0px;
+    opacity: 0px;
+    font-family: Poppins;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 30px;
+    text-align: center;
+
+}
+
+label{
+    width: 42px;
+    height: 30px;
+    top: 298px;
+    left: 528px;
+    gap: 0px;
+    opacity: 0px;
+    font-family: Poppins;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 30px;
+    text-align: center;
+
+}
+
+.published{
+    width: 502px;
+    height: 118px;
+    top: 277px;
+    left: 415px;
+    gap: 0px;
+    opacity: 0px;
+    font-family: Poppins;
+    font-size: 39px;
+    font-weight: 600;
+    line-height: 58.5px;
+    text-align: center;
+
+}
+
+div.display-flex.button{
+    width: 648px;
+    height: 47px;
+    top: 466px;
+    left: 316px;
+    gap: 0px;
+    border-radius: 10px 0px 0px 0px;
+    opacity: 0px;
+
+}
+
+p.quiz-type{
+    width: 122px;
+    height: 38px;
+    top: 469px;
+    left: 316px;
+    gap: 0px;
+    opacity: 0px;
+    font-family: Poppins;
+    font-size: 20px;
+    font-weight: 300;
+    line-height: 30.5px;
+    text-align: center;
+}
+
+button.qna-button{
 
 }
