@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios"
-import { useNavigate, Link, Form } from "react-router-dom";
+import { useNavigate, Link} from "react-router-dom";
 import "./Login.css";
 
 export default function Login() {
@@ -9,8 +9,8 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmpassword, setconfirmPassword] = useState("");
+  const navigate = useNavigate();
 
-  
   async function signUpClick(e){
     e.preventDefault();
 
@@ -40,7 +40,7 @@ export default function Login() {
 
     try{
 
-      await axios("http://localhost:4000/user/find",{
+      const res = await axios("http://localhost:4000/user/find",{
         action: " ",
         method: "POST",
         headers: {
@@ -51,6 +51,9 @@ export default function Login() {
           password: password,
         })
       })
+      if(res.status=200){
+        navigate("/dashboard");
+      }
     }
     catch(e){
       console.log(e);
