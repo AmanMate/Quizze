@@ -1,9 +1,37 @@
-import React from "react";
 import "./Dashboard.css";
 import Navbar from "../../components/Navbar";
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
-export default function Dashboard() {
-  return (
+const Dashboard = () => {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+      const fetchData = async () => {
+          try {
+              const response = await axios.get('http://127.0.0.1:4000/dashboard/getDetails?user_email=a@gmail.com');
+              console.log(response.data)
+              setData(response);
+          } catch (error) {
+            setError(error);
+          } finally {
+            setLoading(false);
+        }
+      };
+      fetchData();
+  }, []); // Empty dependency array means this useEffect runs once when the component mounts.
+
+  if (loading) {
+    return <div>Loading...</div>;
+}
+
+if (error) {
+    return <div>Error: {error.message}</div>;
+}
+
+return (
     <div>
       <Navbar></Navbar>
       <div class="page inline">
@@ -117,3 +145,5 @@ export default function Dashboard() {
     </div>
   );
 }
+
+export default Dashboard;
