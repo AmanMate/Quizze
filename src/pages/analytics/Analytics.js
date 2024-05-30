@@ -1,16 +1,59 @@
-import React from "react";
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import Navbar from "../../components/Navbar";
 import "./Analytics.css";
 import { Link } from "react-router-dom";
 
-export default function Analytics() {
+const Dashboard = () => {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+      const fetchData = async () => {
+          try {
+              const response = await axios.get('http://127.0.0.1:4000/analytics/getAllQuiz?user_email=a@gmail.com');
+              console.log(response.data)
+              setData(response.data);
+          } catch (error) {
+            setError(error);
+          } finally {
+            setLoading(false);
+        }
+      };
+      fetchData();
+  }, []);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
+
+  // const handleEdit = (id) => {
+  //   // code to handle edit action
+  //   console.log(`Edit quiz with id ${id}`);
+  // }
+  
+  const handleDelete = (id) => {
+    // code to handle delete action
+    console.log(`Delete quiz with id ${id}`);
+  }
+  
+  const handleShare = (id) => {
+    // code to handle share action
+    console.log(`Share quiz with id ${id}`);
+  }
+
   return (
     <div>
       <Navbar></Navbar>
       <div class="page">
-        <h2 class="head">Analytics</h2>
+        <h2 class="head">Quiz Analytics</h2>
         <table class="table">
-          <thead>
+          <thead class="bar">
             <tr>
               <th>S.No</th>
               <th>Quiz Name</th>
@@ -20,154 +63,32 @@ export default function Analytics() {
               <th>Question wise Analysis Link</th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
-              <td>1</td>
-              <td>Quiz 1</td>
-              <td>04 Sep, 2023</td>
-              <td>345</td>
-              <td>
-                <a>Edit</a> <a>Delete</a> <a>Share</a>
-              </td>
-              <td>
-                <Link to="/questionwiseanalysis">Link</Link>
-              </td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>Quiz 1</td>
-              <td>04 Sep, 2023</td>
-              <td>345</td>
-              <td>
-                <a>Edit</a> <a>Delete</a> <a>Share</a>
-              </td>
-              <td>
-                <Link to="/questionwiseanalysis">Link</Link>
-              </td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>Quiz 1</td>
-              <td>04 Sep, 2023</td>
-              <td>345</td>
-              <td>
-                <a>Edit</a> <a>Delete</a> <a>Share</a>
-              </td>
-              <td>
-                <Link to="/questionwiseanalysis">Link</Link>
-              </td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>Quiz 1</td>
-              <td>04 Sep, 2023</td>
-              <td>345</td>
-              <td>
-                <a>Edit</a> <a>Delete</a> <a>Share</a>
-              </td>
-              <td>
-                <Link to="/questionwiseanalysis">Link</Link>
-              </td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>Quiz 1</td>
-              <td>04 Sep, 2023</td>
-              <td>345</td>
-              <td>
-                <a>Edit</a> <a>Delete</a> <a>Share</a>
-              </td>
-              <td>
-                <Link to="/questionwiseanalysis">Link</Link>
-              </td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>Quiz 1</td>
-              <td>04 Sep, 2023</td>
-              <td>345</td>
-              <td>
-                <a>Edit</a> <a>Delete</a> <a>Share</a>
-              </td>
-              <td>
-                <Link to="/questionwiseanalysis">Link</Link>
-              </td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>Quiz 1</td>
-              <td>04 Sep, 2023</td>
-              <td>345</td>
-              <td>
-                <a>Edit</a> <a>Delete</a> <a>Share</a>
-              </td>
-              <td>
-                <a>Link</a>
-              </td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>Quiz 1</td>
-              <td>04 Sep, 2023</td>
-              <td>345</td>
-              <td>
-                <a>Edit</a> <a>Delete</a> <a>Share</a>
-              </td>
-              <td>
-                <a>Link</a>
-              </td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>Quiz 1</td>
-              <td>04 Sep, 2023</td>
-              <td>345</td>
-              <td>
-                <a>Edit</a> <a>Delete</a> <a>Share</a>
-              </td>
-              <td>
-                <a>Link</a>
-              </td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>Quiz 1</td>
-              <td>04 Sep, 2023</td>
-              <td>345</td>
-              <td>
-                <a>Edit</a> <a>Delete</a> <a>Share</a>
-              </td>
-              <td>
-                <a>Link</a>
-              </td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>Quiz 1</td>
-              <td>04 Sep, 2023</td>
-              <td>345</td>
-              <td>
-                <a>Edit</a> <a>Delete</a> <a>Share</a>
-              </td>
-              <td>
-                <a>Link</a>
-              </td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>Quiz 1</td>
-              <td>04 Sep, 2023</td>
-              <td>345</td>
-              <td>
-                <a>Edit</a> <a>Delete</a> <a>Share</a>
-              </td>
-              <td>
-                <a>Link</a>
-              </td>
-            </tr>
+          <tbody class="dataBar">
+            {data && data.map((data, index) => (
+              <tr key={index}>
+                <td>{index + 1}</td>
+                <td>{data.quiz_name}</td>
+                <td>{data.created_date}</td>
+                <td>{data.impression_count}</td>
+                <td>
+                  <Link to={`/edit-quiz/${data.id}`}>
+                    <button class="uil--edit">Edit</button>
+                  </Link>
+                  <button class="uil--trash-alt" onClick={() => handleDelete(data.id)}>Delete</button>
+                  <button class="uil--share-alt" onClick={() => handleShare(data.id)}>Share</button>
+                </td>
+                <td>
+                  <Link to="/questionwiseanalysis">Link</Link>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
     </div>
   );
+}
+
+export default function Analytics() {
+  return <Dashboard />;
 }
