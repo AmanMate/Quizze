@@ -13,7 +13,11 @@ const Dashboard = () => {
           try {
               const response = await axios.get('http://127.0.0.1:4000/dashboard/getDetails?user_email=a@gmail.com');
               console.log(response.data)
+<<<<<<< HEAD
               setData(response.data);
+=======
+              setData(response);
+>>>>>>> 1cb34f9a77217e1a6737a5ece13555d4ea1ccd4d
           } catch (error) {
             setError(error);
           } finally {
@@ -73,4 +77,8 @@ return (
   );
 }
 
+<<<<<<< HEAD
 export default Dashboard;
+=======
+export default Dashboard;
+>>>>>>> 1cb34f9a77217e1a6737a5ece13555d4ea1ccd4d
