@@ -51,7 +51,7 @@ export default function Login() {
           password: password,
         })
       })
-      if(res.status(200)){
+      if(res.status===200){
         navigate("/dashboard");
       }
     }
@@ -137,7 +137,3 @@ export default function Login() {
     </div>
   );
 }
-
-
-
-
