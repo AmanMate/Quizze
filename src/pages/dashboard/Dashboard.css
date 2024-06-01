@@ -45,6 +45,11 @@ h1 {
     height: 100vh;
 }
 
+.highligths {
+    display: flex;
+    width: 144vh;
+}
+
 .highligths div {
     background: #FFFFFF;
     border-radius: 10px;
