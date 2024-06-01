@@ -61,12 +61,15 @@ export default function Mymodal({ closeModal }) {
     if (activeStep === 0) {
       setActiveStep((prevStep) => prevStep + 1);
     } else if (activeStep === 1) {
-      if (quizType === "qna") {
-        setActiveStep(1.1); // Set sub-step for Q&A options
-      } else if (quizType === "poll") {
-        setActiveStep(1.2); // Set sub-step for poll options
-      } else {
-        setActiveStep((prevStep) => prevStep + 1); // Move to step 2 if no quiz type selected
+      setQuestions((prevQuestions) => [
+        ...prevQuestions,
+        { question: currentQuestion, options: currentOptions },
+      ]);
+      setActiveStep((prevStep) => prevStep + 1);
+      if (activeStep === 1.1) {
+        setActiveStep((prevStep) => prevStep + 1);
+      } else if (activeStep === 1.2) {
+        setActiveStep((prevStep) => prevStep + 1);
       }
     }
   };
@@ -248,6 +251,7 @@ export default function Mymodal({ closeModal }) {
                           <input
                             type="radio"
                             class="optionradio"
+                            name="optionradio"
                             value={option}
                             onChange={(e) => setOption}
                           ></input>
@@ -255,6 +259,7 @@ export default function Mymodal({ closeModal }) {
                           <input
                             type="radio"
                             class="optionradio"
+                            name="optionradio"
                             value={url}
                             onChange={(e) => setUrl}
                           ></input>
@@ -262,6 +267,7 @@ export default function Mymodal({ closeModal }) {
                           <input
                             type="radio"
                             class="optionradio"
+                            name="optionradio"
                             value={both}
                             onChange={(e) => setBoth}
                           ></input>
@@ -270,7 +276,28 @@ export default function Mymodal({ closeModal }) {
                       </div>
                     </div>
                     <div class="options">
-                      {activeStep === 1.1 && (
+                      <div class="qnaOptions">
+                        {currentOptions.map((option, index) => (
+                          <div key={index}>
+                            <p class="inline option"></p>
+                            <input
+                              type="radio"
+                              name="radio"
+                              class="radio"
+                            ></input>
+                            <input
+                              name="radio"
+                              type="text"
+                              class="text"
+                              value={option}
+                              onChange={(e) => handleOptionChange(index, e)}
+                              placeholder="Text"
+                            ></input>
+                          </div>
+                        ))}
+                        <button onClick={handleAddOption}>Add Option</button>
+                      </div>
+                      {/* {activeStep === 1.1 && (
                         <div class="qnaOptions">
                           {currentOptions.map((option, index) => (
                             <div key={index}>
@@ -303,7 +330,7 @@ export default function Mymodal({ closeModal }) {
                             </div>
                           ))}
                         </div>
-                      )}
+                      )} */}
                     </div>
                   </div>
                   <Link to="/dashboard">
