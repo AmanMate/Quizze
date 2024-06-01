@@ -14,9 +14,7 @@
     z-index: 3;
 }
 
-div.modal-container{
-    
-}
+div.modal-container {}
 
 .quiz-name-type {
     background: white;
@@ -94,22 +92,22 @@ input::placeholder {
 
 }
 
-div.inline-question{
+div.inline-question {
     width: 673px;
     height: 50px;
     top: 220px;
     left: 311px;
     gap: 0px;
     border-radius: 10px 0px 0px 0px;
-    opacity: 0px;  
+    opacity: 0px;
 }
 
 
-input.inline-question{
+input.inline-question {
     size: 500px;
 }
 
-input.radio{
+input.radio {
     width: 19px;
     height: 19px;
     top: 441px;
@@ -119,21 +117,18 @@ input.radio{
 
 }
 
-div.question-option{
+div.question-option {
     width: 845px;
     height: 671px;
     top: 83px;
     left: 217px;
     gap: 0px;
-    opacity: 0px;    
+    opacity: 0px;
 }
 
-.action-buttons{
-    
+.action-buttons {}
 
-}
-
-input.text{
+input.text {
     width: 296px;
     height: 50px;
     top: 361px;
@@ -144,7 +139,7 @@ input.text{
 
 }
 
-input.optionradio{
+input.optionradio {
     width: 19px;
     height: 19px;
     top: 303px;
@@ -154,7 +149,7 @@ input.optionradio{
 
 }
 
-p.optionfont{
+p.optionfont {
     width: 122px;
     height: 30px;
     top: 298px;
@@ -169,7 +164,7 @@ p.optionfont{
 
 }
 
-label{
+label {
     width: 42px;
     height: 30px;
     top: 298px;
@@ -184,7 +179,7 @@ label{
 
 }
 
-.published{
+.published {
     width: 502px;
     height: 118px;
     top: 277px;
@@ -199,7 +194,7 @@ label{
 
 }
 
-div.display-flex.button{
+div.display-flex.button {
     width: 648px;
     height: 47px;
     top: 466px;
@@ -210,7 +205,7 @@ div.display-flex.button{
 
 }
 
-p.quiz-type{
+p.quiz-type {
     width: 122px;
     height: 38px;
     top: 469px;
@@ -224,10 +219,38 @@ p.quiz-type{
     text-align: center;
 }
 
-button.qna-button{
+button.qna-button {}
 
+.optionType {}
+
+.render,
+.first-render {
+    display: flex;
 }
 
-.optionType{
-   
+
+.add-button-div,
+.render-parent {
+    display: flex;
+}
+
+.add-button-div button {
+    width: 45px;
+    border-radius: 23px;
+    margin-inline: 6px;
+}
+
+.add-button {
+    width: 30px !important;
+    height: 30px !important;
+    margin-top: 18px !important;
+}
+
+.render-parent {
+    transform: translateX(-47px) !important;
+}
+
+
+.render-parent .add-button+.add-button {
+    display: none !important;
 }

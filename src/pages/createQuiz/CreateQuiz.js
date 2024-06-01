@@ -42,11 +42,14 @@ export default function Mymodal({ closeModal }) {
     newOptions[index] = e.target.value;
     setCurrentOptions(newOptions);
   };
-
+  const [isVisible, setIsVisible] = useState(true);
   const handleAddQuestions = () => {
     if (numOfQuestion < 5) {
       setQuestions((prevQuestions) => [...prevQuestions, ""]);
       setnumOfQuestion(numOfQuestion + 1);
+      if (numOfQuestion === 4) {
+        setIsVisible(!isVisible);
+      }
     }
   };
 
@@ -194,17 +197,44 @@ export default function Mymodal({ closeModal }) {
                 <div class="action-buttons">
                   <div class="question-options">
                     <div class="box1">
-                      {questions.map((Question, index) => (
-                        <div key={index}>
-                          <p class="inline option"></p>
+                      <div class="add-button-div">
+                        <div class="first-render">
+                          <button class="question-number">1</button>
                           <button
-                            value={Question}
-                            onChange={(e) => handleQuestionChange(index, e)}
+                            class="add-button"
                             onClick={handleAddQuestions}
-                          ></button>
+                          >
+                            +
+                          </button>
                         </div>
-                      ))}
-                      <button onClick={handleAddQuestions}></button>
+                        <div class="render-parent">
+                          {questions.map((Question, index) => (
+                            <div class="render" key={index}>
+                              <p class="inline option"></p>
+                              <div>
+                                <button
+                                  class="question-number"
+                                  value={Question}
+                                >
+                                  {index + 2}
+                                </button>
+                                {index === questions.length - 1 &&
+                                  isVisible && (
+                                    <button
+                                      onChange={(e) =>
+                                        handleQuestionChange(index, e)
+                                      }
+                                      class="add-button"
+                                      onClick={handleAddQuestions}
+                                    >
+                                      +
+                                    </button>
+                                  )}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
                       <div class="inline-question ">
                         <input
                           type="text"
