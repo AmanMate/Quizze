@@ -17,7 +17,7 @@
 
 .quiz-name-type {
     background: white;
-    margin: 100px 500px;
+    margin: 50px 500px;
     width: 500px;
     border-radius: 10px;
     padding: 20px;
@@ -31,7 +31,11 @@
 }
 
 input::placeholder {
-    font-size: 25px;
+    font-size: 20px;
+}
+
+input {
+    font-size: 20px;
 }
 
 .quiz-name-type input {
@@ -127,7 +131,7 @@ div.question-option {
 
 
 input.text {
-    width: 296px;
+    width: 224px;
     height: 50px;
     top: 361px;
     left: 311px;
@@ -242,8 +246,16 @@ p.quiz-type {
     margin-top: 18px !important;
 }
 
+.add-button {
+    width: 30px !important;
+    height: 30px !important;
+    margin-top: 18px !important;
+    background: white;
+    line-height: 13px;
+    font-size: 27px;
+}
 
-.delete-button{
+.delete-button {
     width: 15px;
     height: 15px;
     top: 126px;
@@ -251,11 +263,17 @@ p.quiz-type {
     padding: 6.35px 5.44px 2.56px 3.46px;
     gap: 0px;
     opacity: 0px;
-    background-color:#ffffff;
-}    
+    background-color: #ffffff;
+}
 
 .delete-button {
-    font-size: 9px;
+    font-size: 11px;
+    margin: 0px !important;
+    transform: translate(-8px, -20px);
+    width: 9px !important;
+    /* transform: translateX(10px); */
+    line-height: 1px;
+
 }
 
 .render-parent {
@@ -269,4 +287,47 @@ p.quiz-type {
 
 .render-parent .delete-button+.delete-button {
     display: none !important;
+}
+
+.aa {
+    display: flex;
+    position: relative;
+    transform: translateY(-47px);
+
+}
+
+.bb {
+    height: 70px;
+}
+
+.optionType {
+    display: flex;
+}
+
+.optionType div {
+    transform: translateY(24px);
+}
+
+input[type="radio"] {
+    /* Hide the default radio button */
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #ccc;
+    border-radius: 50%;
+}
+
+input[type="radio"]:checked::after {
+    /* Style the checked state */
+    content: "";
+    background-color: #007bff;
+    border-radius: 50%;
+    display: block;
+    width: 10px;
+    height: 10px;
+    margin: 4px;
+}
+
+.text {
+    margin-right: 10px;
 }

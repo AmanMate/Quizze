@@ -4,9 +4,11 @@ import axios from "axios";
 import "./CreateQuiz.css";
 import { v4 as uuidv4 } from "uuid";
 import Timer from "../Timer/Timer.js";
+import { Link } from "react-router-dom";
 // import { string } from "i/lib/util";
 
 export default function Mymodal({ closeModal }) {
+  const [numOfOpotion, setnumOfOpotion] = useState(0);
   const [activeStep, setActiveStep] = useState(0);
   const [quizName, setQuizName] = useState("");
   const [quizType, setQuizType] = useState(null);
@@ -81,7 +83,7 @@ export default function Mymodal({ closeModal }) {
   const handleDeleteQuestion = (index) => {
     setQuestions(questions.filter((question, i) => i !== index));
     setnumOfQuestion(numOfQuestion - 1);
-    if (numOfQuestion === 4) {
+    if (numOfQuestion === 5) {
       setIsVisible(!isVisible);
     }
   };
@@ -199,9 +201,11 @@ export default function Mymodal({ closeModal }) {
                     Poll Type
                   </button>
                 </div>
-                <button class="cancel" onClick={closeModal}>
-                  Cancel
-                </button>
+                <Link to="/dashboard">
+                  <button class="cancel" onClick={closeModal}>
+                    Cancel
+                  </button>
+                </Link>
                 <button
                   class="continue"
                   onClick={handleContinueClick}
@@ -255,12 +259,6 @@ export default function Mymodal({ closeModal }) {
                                       +
                                     </button>
                                   )}
-                                <button
-                                  class="delete-button"
-                                  onClick={() => handleDeleteQuestion(index)}
-                                >
-                                  x
-                                </button>
                               </div>
                             </div>
                           ))}
@@ -308,13 +306,13 @@ export default function Mymodal({ closeModal }) {
                       <div class="qnaOptions">
                         {quizType == "qna" && <Timer />}
                         {currentOptions.map((option, index) => (
-                          <div key={index}>
+                          <div class="bb" key={index}>
                             <p class="inline option"></p>
                             {quizType == "qna" && (
                               <input type="radio" class="radio"></input>
                             )}
                             {
-                              <div style={{ display: "flex" }}>
+                              <div class="aa">
                                 <input
                                   type="text"
                                   class="text"
@@ -371,9 +369,11 @@ export default function Mymodal({ closeModal }) {
                   )}   */}
                     </div>
                   </div>
-                  <button class="cancel" onClick={closeModal}>
-                    Cancel
-                  </button>
+                  <Link to="/dashboard">
+                    <button class="cancel" onClick={closeModal}>
+                      Cancel
+                    </button>
+                  </Link>
                   <button
                     class="continue"
                     onClick={() => {
