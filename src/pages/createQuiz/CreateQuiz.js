@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-// import axios from "axios"
+import axios from "axios"
 // import { useNavigate, Link} from "react-router-dom";
 import "./CreateQuiz.css";
 import { v4 as uuidv4 } from 'uuid';
+import Timer from "../Timer/Timer.js";
 // import { string } from "i/lib/util";
 
 export default function Mymodal({ closeModal }) {
@@ -19,21 +20,46 @@ export default function Mymodal({ closeModal }) {
   const [currentQuestion, setCurrentQuestion] = useState("");
   const [currentOptions, setCurrentOptions] = useState(["", ""]);
 
+  const [optionType, setOptionType] = useState("text");
   const [numOfQuestion, setnumOfQuestion] = useState(1);
 
+  const [placeholder, setPlaceholder] = useState('Text');
+
   const handleQuizNameChange = (e) => {
-    setQuizName(e.target.value); 
+    setQuizName(e.target.value);
+  };
+
+  const handleOptionTypeChange = (event) => {
+    const value = event.target.value;
+    console.log("handleOptionTypeChange -> ", value);
+    setOption(value);
+    setOptionType(value);
+    const elements = document.getElementsByClassName('optionradio');
+    if (value == 'text') {
+      console.log('text changed');
+      setPlaceholder('Text');
+    } else if (value == 'url') {
+      console.log('url changed');
+      setPlaceholder('Image url');
+    } else {
+      console.log('t u changed');
+      setPlaceholder('Text & Image url');
+    }
   };
 
   const handleClick = (quizTypeARG) => {
     setQuizType(quizTypeARG);
+    if(quizTypeARG == 'poll'){
+      setCurrentOptions(["", "", "", ""]);
+    }
   };
 
   const handleQuestionChange = (index, e) => {
     setCurrentQuestion(e.target.value);
     const newQuestions = [...questions];
     newQuestions[index] = e.target.value;
-    setQuestions(newQuestions);  };
+    setQuestions(newQuestions);
+  };
 
   const handleOptionChange = (index, e) => {
     const newOptions = [...currentOptions];
@@ -53,7 +79,11 @@ export default function Mymodal({ closeModal }) {
   };
 
   const handleDeleteQuestion = (index) => {
-    setQuestions(questions.filter((question, i) => i!== index));
+    setQuestions(questions.filter((question, i) => i !== index));
+    setnumOfQuestion(numOfQuestion - 1);
+    if (numOfQuestion === 4) {
+      setIsVisible(!isVisible);
+    }
   };
 
   const handleAddOption = () => {
@@ -62,16 +92,10 @@ export default function Mymodal({ closeModal }) {
 
   const handleContinueClick = () => {
     if (activeStep === 0) {
+      console.log("quizType->", quizType);
       setActiveStep((prevStep) => prevStep + 1);
     } else if (activeStep === 1) {
-
       setQuestions((prevQuestions) => [...prevQuestions, { question: currentQuestion, options: currentOptions }]);
-
-      setQuestions((prevQuestions) => [
-        ...prevQuestions,
-        { question: currentQuestion, options: currentOptions },
-      ]);
-
       setActiveStep((prevStep) => prevStep + 1);
       if (activeStep === 1.1) {
         setActiveStep((prevStep) => prevStep + 1);
@@ -95,87 +119,86 @@ export default function Mymodal({ closeModal }) {
     setContinueToNextStep(true);
   };
 
-  // async function QnAClick(e){
-  //   e.preventDefault();
+  async function QnAClick(e) {
+    e.preventDefault();
 
-  //   try{
+    try {
 
-  //     await axios("http://localhost:4000/createquiz/qna",{
-  //       action: " ",
-  //       method: "POST",
-  //       headers: {
-  //         'Content-Type': 'application/json'
-  //       },
-  //       data: JSON.stringify({
-  //         questions:[
-  //           {
-  //             // user_email: userEmail,
-  //             // quiz_id: quizId,
-  //             quiz_name: quizName,
-  //             quiz_type: quizType,
-  //             question: String,
+      await axios("http://localhost:4000/createquiz/qna", {
+        action: " ",
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        data: JSON.stringify({
+          questions: [
+            {
+              // user_email: userEmail,
+              // quiz_id: quizId,
+              quiz_name: quizName,
+              quiz_type: quizType,
+              question: String,
 
-  //             options:[
-  //               {
-  //                option: String,
-  //                iscorrect: Boolean
-  //               }
-  //             ]
-  //           }
-  //         ]
-  //       })
-  //     })
-  //   }
-  //   catch(e){
-  //     console.log(e);
-  //   }
-  // }
-
-
-
+              options: [
+                {
+                  option: String,
+                  iscorrect: Boolean
+                }
+              ]
+            }
+          ]
+        })
+      })
+    }
+    catch (e) {
+      console.log(e);
+    }
+  }
   return (
     <div>
       <div class="modal-wrapper">
         <div class="modal-container">
-          <div class="quiz-name-type">          
+          <div class="quiz-name-type">
             {activeStep === 0 && (
-            <div class="action-buttons">
-               <input class="quiz-name" placeholder="Quiz name" value={quizName} onChange={handleQuizNameChange}></input>
-
-              <div class="display-flex buttons">
+              <div class="action-buttons">
+                <input class="quiz-name" placeholder="Quiz name" value={quizName} onChange={handleQuizNameChange}></input>
+                <div class="display-flex buttons">
                   <p class="quiz-type">Quiz Type</p>
-                    <button
-                      onClick={() => handleClick("qna")}
-                      class="qna-button"
-                      style={{
-                        backgroundColor: quizType === "qna" ? "#60B84B" : "white",
-                        color: quizType === "qna" ? "white" : "#757575",
-                      }}
-                    >
-                      Q & A
-                    </button>
-                    <button
-                      onClick={() => handleClick("poll")}
-                      class="poll-type-button"
-                      style={{
-                        backgroundColor: quizType === "poll" ? "#60B84B" : "white",
-                        color: quizType === "poll" ? "white" : "#757575",
-                      }}
-                    >
-                      Poll Type
-                    </button>
+                  <button
+                    onClick={() => {
+                      handleClick("qna");
+                      // QnAClick();
+                    }}
+                    class="qna-button"
+                    style={{
+                      backgroundColor: quizType === "qna" ? "#60B84B" : "white",
+                      color: quizType === "qna" ? "white" : "#757575",
+                    }}
+                  >
+                    Q & A
+                  </button>
+                  <button
+                    onClick={() => handleClick("poll")}
+                    class="poll-type-button"
+                    style={{
+                      backgroundColor: quizType === "poll" ? "#60B84B" : "white",
+                      color: quizType === "poll" ? "white" : "#757575",
+                    }}
+                  >
+                    Poll Type
+                  </button>
+                </div>
+                <button class="cancel" onClick={closeModal}>
+                  Cancel
+                </button>
+                <button class="continue" onClick={handleContinueClick} disabled={!quizType}>Continue</button>
               </div>
-              <button class="cancel" onClick={closeModal}>
-                Cancel
-              </button>
-              <button class="continue" onClick={handleContinueClick} disabled={!quizType}>Continue</button>
-            </div>
             )}
-          <div class="box">
-            {activeStep === 1 && (
-                  <div class="action-buttons">
-                    <div class="question-options">
-                      <div class="box1">
+            <div class="box">
+              {activeStep === 1 && (
+                <div class="action-buttons">
+                  <div class="question-options">
+                    <div class="box1">
                       <div class="add-button-div">
                         <div class="first-render">
                           <button class="question-number">1</button>
@@ -197,6 +220,12 @@ export default function Mymodal({ closeModal }) {
                                 >
                                   {index + 2}
                                 </button>
+                                <button
+                                  class="delete-button"
+                                  onClick={() => handleDeleteQuestion(index)}
+                                >
+                                  x
+                                </button>
                                 {index === questions.length - 1 &&
                                   isVisible && (
                                     <button
@@ -209,85 +238,74 @@ export default function Mymodal({ closeModal }) {
                                       +
                                     </button>
                                   )}
-                                  <button
-                                    class="delete-button"
-                                    onClick={() => handleDeleteQuestion(index)}
-                                  >
-                                    x
-                                  </button>
                               </div>
                             </div>
                           ))}
                         </div>
                       </div>
-                  <div class="inline-question ">
-                             <input type="text"  onChange={(e) => handleQuestionChange} placeholder="Q & A Question"></input>
-                  </div>
-                  <div class="optionType">
+                      <div class="inline-question ">
+                        <input type="text" onChange={(e) => handleQuestionChange} placeholder="Q & A Question"></input>
+                      </div>
+                      <div class="optionType">
                         <p class="optionfont">Option Type</p>
                         <div>
                           <input
                             type="radio"
                             class="optionradio"
                             name="optionradio"
-                            value={option}
-                            onChange={(e) => setOption}
+                            value="text"
+                            onChange={handleOptionTypeChange}
+                            checked={placeholder == "Text"}
                           ></input>
                           <label>Text</label>
                           <input
                             type="radio"
                             class="optionradio"
                             name="optionradio"
-                            value={url}
-                            onChange={(e) => setUrl}
+                            value="url"
+                            onChange={handleOptionTypeChange}
                           ></input>
                           <label>Image</label>
                           <input
                             type="radio"
                             class="optionradio"
                             name="optionradio"
-                            value={both}
-                            onChange={(e) => setBoth}
+                            value="both"
+                            onChange={handleOptionTypeChange}
                           ></input>
                           <label>Text & Image</label>
                         </div>
                       </div>
-                </div>
-                    <div class="options">
-
-                    <div class="qnaOptions">
-                          {currentOptions.map((option, index) => (
-                            <div key={index}>
-                              <p class="inline option"></p>
-                                 <input type="radio" class="radio"></input>
-                                 <input type="text"  class="text" value={option} onChange={(e) => handleOptionChange(index, e)} placeholder="Text"></input>
-                            </div>
-                          
-                          ))}
-                      <button onClick={handleAddOption}>Add Option</button> 
                     </div>
-                      
-
+                    <div class="options">
                       <div class="qnaOptions">
+                        {quizType == "qna" && (
+                          <Timer />
+                        )}
                         {currentOptions.map((option, index) => (
                           <div key={index}>
                             <p class="inline option"></p>
-                            <input
-                              type="radio"
-                              name="radio"
-                              class="radio"
-                            ></input>
-                            <input
-                              name="radio"
-                              type="text"
-                              class="text"
-                              value={option}
-                              onChange={(e) => handleOptionChange(index, e)}
-                              placeholder="Text"
-                            ></input>
+                            {
+                              quizType == "qna" && (
+                                <input type="radio" class="radio"></input>
+                              )
+                            }
+                            {
+                              <div style={{ display: 'flex' }}>
+                                <input type="text" class="text" value={option} onChange={(e) => handleOptionChange(index, e)} placeholder={placeholder != 'Text & Image url' ? placeholder : 'Text'}></input>
+                                {
+                                  placeholder == 'Text & Image url' && (<input type="text" class="text" value={option} onChange={(e) => handleOptionChange(index, e)} placeholder='Image url'></input>)
+                                }
+                              </div>
+                            }
                           </div>
+
                         ))}
-                        <button onClick={handleAddOption}>Add Option</button>
+                        {
+                              quizType == "qna" && (
+                                <button onClick={handleAddOption}>Add Option</button>
+                              )
+                            }
                       </div>
 
                       {/* {activeStep === 1.1 && (
@@ -311,38 +329,33 @@ export default function Mymodal({ closeModal }) {
                                  <input type="text"  class="text" value={option} onChange={(e) => handleOptionChange(index, e)} placeholder="Text"></input>
                             </div>
                           ))}
-
                     </div>
                   )}   */}
-
-                        </div>
-                      )} */}
-
                     </div>
                   </div>
-                    <button class="cancel" onClick={closeModal}>
-                                    Cancel
-                    </button>
-                    <button class="continue" onClick={() => {
-                      handleCreateQuiz();
-                      handleContinueClick();
-                    }}>
-                        Create Quiz
-                      </button>
-                  </div>
+                  <button class="cancel" onClick={closeModal}>
+                    Cancel
+                  </button>
+                  <button class="continue" onClick={() => {
+                    handleCreateQuiz();
+                    handleContinueClick();
+                  }}>
+                    Create Quiz
+                  </button>
+                </div>
 
-                      )}
-            {activeStep === 2 && (
+              )}
+              {activeStep === 2 && (
                 <div class="action-buttons">
                   <div class="questions">
                     <p class="published">Congrats your Quiz is Published! </p>
                     <p>Shareable link: {shareableLink}</p>
                   </div>
-                  
-                  <button class="Share" onClick={() => {}}>Share</button>
+
+                  <button class="Share" onClick={() => { }}>Share</button>
                 </div>
-            )}
-          </div>
+              )}
+            </div>
           </div>
         </div>
       </div>

@@ -65,7 +65,7 @@ const Dashboard = () => {
           </thead>
           <tbody class="dataBar">
             {data && data.map((data, index) => (
-              <tr key={index}>
+              <tr key={index} style={{background: index % 2 == 0 ? '#fff' : '#B3C4FF'}}>
                 <td>{index + 1}</td>
                 <td>{data.quiz_name}</td>
                 <td>{data.created_date}</td>
