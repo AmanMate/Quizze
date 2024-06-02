@@ -164,13 +164,15 @@ export default function Login() {
                     ></input>
                   </div>
                   <div>
-                    <button
-                      type="submit"
-                      className="blueButton"
-                      onClick={(e) => signUpClick(e)}
-                    >
-                      Sign Up
-                    </button>
+                    <Link to="">
+                      <button
+                        type="submit"
+                        className="blueButton"
+                        onClick={(e) => signUpClick(e)}
+                      >
+                        Sign Up
+                      </button>
+                    </Link>
                   </div>
                 </div>
               )}
