@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Navbar from "./components/Navbar";
+// import Navbar from "./components/Navbar";
 import Dashboard from "./pages/dashboard/Dashboard";
 import Analytics from "./pages/analytics/Analytics";
 import CreateQuiz from "./pages/createQuiz/CreateQuiz";
