@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-
+import React, { useState, useCallback } from "react";
 // import axios from "axios"
 // import { useNavigate, Link} from "react-router-dom";
 import "./CreateQuiz.css";
+import { v4 as uuidv4 } from "uuid";
+// import { string } from "i/lib/util";
 
 export default function Mymodal({ closeModal }) {
   const [activeStep, setActiveStep] = useState(0);
@@ -14,13 +14,14 @@ export default function Mymodal({ closeModal }) {
   const [option, setOption] = useState("");
   const [url, setUrl] = useState("");
   const [both, setBoth] = useState("");
-
   // const [quizId, setQuizId] = useState("");
   const [questions, setQuestions] = useState([]);
   const [currentQuestion, setCurrentQuestion] = useState("");
-  const [currentOptions, setCurrentOptions] = useState(["", ""]);
+  const [currentOptions, setCurrentOptions] = useState([""]);
 
   const [numOfQuestion, setnumOfQuestion] = useState(1);
+  const [numOfOption, setnumOfOpotion] = useState(1);
+  const [typeOfOption, settypeOfOption] = useState(1);
 
   const handleQuizNameChange = (e) => {
     setQuizName(e.target.value);
@@ -42,6 +43,7 @@ export default function Mymodal({ closeModal }) {
     newOptions[index] = e.target.value;
     setCurrentOptions(newOptions);
   };
+
   const [isVisible, setIsVisible] = useState(true);
   const handleAddQuestions = () => {
     if (numOfQuestion < 5) {
@@ -53,8 +55,16 @@ export default function Mymodal({ closeModal }) {
     }
   };
 
+  const handleDeleteQuestion = (index) => {
+    setQuestions(questions.filter((question, i) => i !== index));
+  };
+
   const handleAddOption = () => {
     setCurrentOptions((prevOptions) => [...prevOptions, ""]);
+    console.log(currentOptions.length);
+    if (currentOptions.length >= 3) {
+      setnumOfOpotion(0);
+    }
   };
 
   const handleContinueClick = () => {
@@ -72,77 +82,21 @@ export default function Mymodal({ closeModal }) {
         setActiveStep((prevStep) => prevStep + 1);
       }
     }
+    if (continueToNextStep) {
+      // Continue to the next step
+      console.log("Continuing to the next step...");
+    }
   };
 
-  // async function QnAClick(e){
-  //   e.preventDefault();
+  const [shareableLink, setShareableLink] = useState("");
+  const [continueToNextStep, setContinueToNextStep] = useState(false);
 
-  //   try{
-
-  //     await axios("http://localhost:4000/createquiz/qna",{
-  //       action: " ",
-  //       method: "POST",
-  //       headers: {
-  //         'Content-Type': 'application/json'
-  //       },
-  //       data: JSON.stringify({
-  //         questions:[
-  //           {
-  //             user_email: userEmail,
-  //             quiz_id: quizId,
-  //             quiz_name: quizName,
-  //             quiz_type: quizType,
-  //             question: question,
-
-  //             options:[
-  //               {
-  //                 title: option,url
-  //               }
-  //             ]
-  //           }
-  //         ]
-  //       })
-  //     })
-  //   }
-  //   catch(e){
-  //     console.log(e);
-  //   }
-  // }
-
-  // async function PollClick(e){
-  //   e.preventDefault();
-
-  //   try{
-
-  //     await axios("http://localhost:4000/createquiz/poll",{
-  //       action: " ",
-  //       method: "POST",
-  //       headers: {
-  //         'Content-Type': 'application/json'
-  //       },
-  //       data: JSON.stringify({
-  //         questions:[
-  //           {
-  //             user_email: userEmail,
-  //             quiz_id: quizId,
-  //             quiz_name: quizName,
-  //             quiz_type: quizType,
-  //             question: question,
-
-  //             options:[
-  //               {
-  //                 title: option,
-  //               }
-  //             ]
-  //           }
-  //         ]
-  //       })
-  //     })
-  //   }
-  //   catch(e){
-  //     console.log(e);
-  //   }
-  // }
+  const handleCreateQuiz = () => {
+    const quizId = uuidv4();
+    const link = `https://example.com/quiz/${quizId}`;
+    setShareableLink(link);
+    setContinueToNextStep(true);
+  };
 
   return (
     <div>
@@ -182,10 +136,9 @@ export default function Mymodal({ closeModal }) {
                     Poll Type
                   </button>
                 </div>
-                <Link to="/dashboard">
-                  <button class="cancel">Cancel</button>
-                </Link>
-
+                <button class="cancel" onClick={closeModal}>
+                  Cancel
+                </button>
                 <button
                   class="continue"
                   onClick={handleContinueClick}
@@ -233,6 +186,12 @@ export default function Mymodal({ closeModal }) {
                                       +
                                     </button>
                                   )}
+                                <button
+                                  class="delete-button"
+                                  onClick={() => handleDeleteQuestion(index)}
+                                >
+                                  x
+                                </button>
                               </div>
                             </div>
                           ))}
@@ -253,7 +212,7 @@ export default function Mymodal({ closeModal }) {
                             class="optionradio"
                             name="optionradio"
                             value={option}
-                            onChange={(e) => setOption}
+                            onChange={settypeOfOption(1)}
                           ></input>
                           <label>Text</label>
                           <input
@@ -261,7 +220,7 @@ export default function Mymodal({ closeModal }) {
                             class="optionradio"
                             name="optionradio"
                             value={url}
-                            onChange={(e) => setUrl}
+                            onChange={settypeOfOption(2)}
                           ></input>
                           <label>Image</label>
                           <input
@@ -269,7 +228,7 @@ export default function Mymodal({ closeModal }) {
                             class="optionradio"
                             name="optionradio"
                             value={both}
-                            onChange={(e) => setBoth}
+                            onChange={settypeOfOption(3)}
                           ></input>
                           <label>Text & Image</label>
                         </div>
@@ -280,13 +239,8 @@ export default function Mymodal({ closeModal }) {
                         {currentOptions.map((option, index) => (
                           <div key={index}>
                             <p class="inline option"></p>
+                            <input type="radio" class="radio"></input>
                             <input
-                              type="radio"
-                              name="radio"
-                              class="radio"
-                            ></input>
-                            <input
-                              name="radio"
                               type="text"
                               class="text"
                               value={option}
@@ -295,49 +249,24 @@ export default function Mymodal({ closeModal }) {
                             ></input>
                           </div>
                         ))}
-                        <button onClick={handleAddOption}>Add Option</button>
-                      </div>
-                      {/* {activeStep === 1.1 && (
-                        <div class="qnaOptions">
-                          {currentOptions.map((option, index) => (
-                            <div key={index}>
-                              <p class="inline option"></p>
-                              <input type="radio" class="radio"></input>
-                              <input
-                                type="text"
-                                class="text"
-                                value={option}
-                                onChange={(e) => handleOptionChange(index, e)}
-                                placeholder="Text"
-                              ></input>
-                            </div>
-                          ))}
+
+                        {numOfOption === 1 && (
                           <button onClick={handleAddOption}>Add Option</button>
-                        </div>
-                      )}
-                      {activeStep === 1.2 && (
-                        <div class="pollOptions">
-                          {currentOptions.map((option, index) => (
-                            <div key={index}>
-                              <p class="inline option"></p>
-                              <input
-                                type="text"
-                                class="text"
-                                value={option}
-                                onChange={(e) => handleOptionChange(index, e)}
-                                placeholder="Text"
-                              ></input>
-                            </div>
-                          ))}
-                        </div>
-                      )} */}
+                        )}
+                      </div>
                     </div>
                   </div>
-                  <Link to="/dashboard">
-                    <button class="cancel">Cancel</button>
-                  </Link>
-                  <button class="continue" onClick={handleContinueClick}>
-                    CreateQuiz
+                  <button class="cancel" onClick={closeModal}>
+                    Cancel
+                  </button>
+                  <button
+                    class="continue"
+                    onClick={() => {
+                      handleCreateQuiz();
+                      handleContinueClick();
+                    }}
+                  >
+                    Create Quiz
                   </button>
                 </div>
               )}
@@ -345,8 +274,9 @@ export default function Mymodal({ closeModal }) {
                 <div class="action-buttons">
                   <div class="questions">
                     <p class="published">Congrats your Quiz is Published! </p>
-                    <input type="url"></input>
+                    <p>Shareable link: {shareableLink}</p>
                   </div>
+
                   <button class="Share" onClick={() => {}}>
                     Share
                   </button>

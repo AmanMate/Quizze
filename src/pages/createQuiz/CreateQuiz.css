@@ -14,7 +14,6 @@
     z-index: 3;
 }
 
-div.modal-container {}
 
 .quiz-name-type {
     background: white;
@@ -89,7 +88,7 @@ input::placeholder {
 
 .continue {
     background-color: #60B84B;
-
+    margin-top: 16px !important;
 }
 
 div.inline-question {
@@ -126,7 +125,6 @@ div.question-option {
     opacity: 0px;
 }
 
-.action-buttons {}
 
 input.text {
     width: 296px;
@@ -219,9 +217,6 @@ p.quiz-type {
     text-align: center;
 }
 
-button.qna-button {}
-
-.optionType {}
 
 .render,
 .first-render {
