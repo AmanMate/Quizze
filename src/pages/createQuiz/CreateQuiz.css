@@ -240,11 +240,13 @@ button.qna-button {}
     margin-inline: 6px;
 }
 
-.add-button {
+.add-button,
+.delete-button {
     width: 30px !important;
     height: 30px !important;
     margin-top: 18px !important;
 }
+
 
 .delete-button{
     width: 15px;
@@ -256,6 +258,9 @@ button.qna-button {}
     opacity: 0px;
     background-color:#ffffff;
     
+
+.delete-button {
+    font-size: 9px;
 }
 
 .render-parent {
@@ -264,5 +269,9 @@ button.qna-button {}
 
 
 .render-parent .add-button+.add-button {
+    display: none !important;
+}
+
+.render-parent .delete-button+.delete-button {
     display: none !important;
 }

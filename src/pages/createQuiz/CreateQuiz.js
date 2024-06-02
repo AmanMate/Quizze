@@ -64,7 +64,14 @@ export default function Mymodal({ closeModal }) {
     if (activeStep === 0) {
       setActiveStep((prevStep) => prevStep + 1);
     } else if (activeStep === 1) {
+
       setQuestions((prevQuestions) => [...prevQuestions, { question: currentQuestion, options: currentOptions }]);
+
+      setQuestions((prevQuestions) => [
+        ...prevQuestions,
+        { question: currentQuestion, options: currentOptions },
+      ]);
+
       setActiveStep((prevStep) => prevStep + 1);
       if (activeStep === 1.1) {
         setActiveStep((prevStep) => prevStep + 1);
@@ -247,6 +254,7 @@ export default function Mymodal({ closeModal }) {
                       </div>
                 </div>
                     <div class="options">
+
                     <div class="qnaOptions">
                           {currentOptions.map((option, index) => (
                             <div key={index}>
@@ -259,6 +267,29 @@ export default function Mymodal({ closeModal }) {
                       <button onClick={handleAddOption}>Add Option</button> 
                     </div>
                       
+
+                      <div class="qnaOptions">
+                        {currentOptions.map((option, index) => (
+                          <div key={index}>
+                            <p class="inline option"></p>
+                            <input
+                              type="radio"
+                              name="radio"
+                              class="radio"
+                            ></input>
+                            <input
+                              name="radio"
+                              type="text"
+                              class="text"
+                              value={option}
+                              onChange={(e) => handleOptionChange(index, e)}
+                              placeholder="Text"
+                            ></input>
+                          </div>
+                        ))}
+                        <button onClick={handleAddOption}>Add Option</button>
+                      </div>
+
                       {/* {activeStep === 1.1 && (
                         <div class="qnaOptions">
                           {currentOptions.map((option, index) => (
@@ -280,8 +311,13 @@ export default function Mymodal({ closeModal }) {
                                  <input type="text"  class="text" value={option} onChange={(e) => handleOptionChange(index, e)} placeholder="Text"></input>
                             </div>
                           ))}
+
                     </div>
                   )}   */}
+
+                        </div>
+                      )} */}
+
                     </div>
                   </div>
                     <button class="cancel" onClick={closeModal}>
