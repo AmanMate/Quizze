@@ -35,7 +35,7 @@ export default function QuestionwiseAnalysis() {
           </div>
 
           <div class="sliderbody">
-            {activeForm == "poll" && (
+            {activeForm === "poll" && (
               <div class="container">
                 <div class="question">
                   <h1>Q.1 Question place holder for analysis ?</h1>
@@ -56,7 +56,7 @@ export default function QuestionwiseAnalysis() {
                 </div>
               </div>
             )}
-            {activeForm == "qna" && (
+            {activeForm === "qna" && (
               <div class="container">
                 <div class="question">
                   <h1>Q.1 Question place holder for analysis ?</h1>

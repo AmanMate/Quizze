@@ -242,6 +242,18 @@ p.quiz-type {
     margin-top: 18px !important;
 }
 
+
+.delete-button{
+    width: 15px;
+    height: 15px;
+    top: 126px;
+    left: 432px;
+    padding: 6.35px 5.44px 2.56px 3.46px;
+    gap: 0px;
+    opacity: 0px;
+    background-color:#ffffff;
+}    
+
 .delete-button {
     font-size: 9px;
 }

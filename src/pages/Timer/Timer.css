@@ -1,0 +1,14 @@
+.Timer-container{
+    
+}
+.timer-option{
+    /* width: 100px; */
+    width: 300px;
+    border: 5px solid green;
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+}
+button{
+    cursor: pointer;
+}

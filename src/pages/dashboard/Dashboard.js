@@ -1,7 +1,7 @@
 import "./Dashboard.css";
 import Navbar from "../../components/Navbar";
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
 const Dashboard = () => {
   const [data, setData] = useState(null);
@@ -11,9 +11,7 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          "http://127.0.0.1:4000/dashboard/getDetails?user_email=a@gmail.com"
-        );
+        const response = await axios.get('http://127.0.0.1:4000/dashboard/getDetails?user_email=a@gmail.com');
         console.log(response.data);
         setData(response.data);
       } catch (error) {
@@ -57,17 +55,15 @@ const Dashboard = () => {
         <div>
           <h2 className="trending">Trending Quizs</h2>
           <div className="grid-container container">
-            {data &&
-              data.trendingQuiz &&
-              data.trendingQuiz.map((quiz, index) => (
-                <div className="grid-item" key={index}>
-                  <p>
-                    <span className="heading">{quiz.quiz_name}</span>
-                    <span className="views">{quiz.impression_count}</span>
-                  </p>
-                  <p className="created-on">{quiz.created_date}</p>
-                </div>
-              ))}
+            {data && data.trendingQuiz && data.trendingQuiz.map((quiz, index) => (
+              <div className="grid-item" key={index}>
+                <p>
+                  <span className="heading">{quiz.quiz_name}</span>
+                  <span className="views">{quiz.impression_count}</span>
+                </p>
+                <p className="created-on">{quiz.created_date}</p>
+              </div>
+            ))}
           </div>
         </div>
       </div>
