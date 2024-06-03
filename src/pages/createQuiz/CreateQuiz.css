@@ -14,10 +14,11 @@
     z-index: 3;
 }
 
+div.modal-container {}
 
 .quiz-name-type {
     background: white;
-    margin: 50px 500px;
+    margin: 100px 500px;
     width: 500px;
     border-radius: 10px;
     padding: 20px;
@@ -31,11 +32,7 @@
 }
 
 input::placeholder {
-    font-size: 20px;
-}
-
-input {
-    font-size: 20px;
+    font-size: 25px;
 }
 
 .quiz-name-type input {
@@ -92,7 +89,7 @@ input {
 
 .continue {
     background-color: #60B84B;
-    margin-top: 16px !important;
+
 }
 
 div.inline-question {
@@ -129,9 +126,10 @@ div.question-option {
     opacity: 0px;
 }
 
+.action-buttons {}
 
 input.text {
-    width: 224px;
+    width: 296px;
     height: 50px;
     top: 361px;
     left: 311px;
@@ -221,6 +219,9 @@ p.quiz-type {
     text-align: center;
 }
 
+button.qna-button {}
+
+.optionType {}
 
 .render,
 .first-render {
@@ -246,14 +247,6 @@ p.quiz-type {
     margin-top: 18px !important;
 }
 
-.add-button {
-    width: 30px !important;
-    height: 30px !important;
-    margin-top: 18px !important;
-    background: white;
-    line-height: 13px;
-    font-size: 27px;
-}
 
 .delete-button {
     width: 15px;
@@ -267,13 +260,7 @@ p.quiz-type {
 }
 
 .delete-button {
-    font-size: 11px;
-    margin: 0px !important;
-    transform: translate(-8px, -20px);
-    width: 9px !important;
-    /* transform: translateX(10px); */
-    line-height: 1px;
-
+    font-size: 9px;
 }
 
 .render-parent {
@@ -330,9 +317,14 @@ input[type="radio"]:checked::after {
 
 .text {
     margin-right: 10px;
+    width: 215px !important;
 }
 
 .qnaOptions {
     display: flex;
     justify-content: space-between;
+}
+
+.radio {
+    transform: translateY(-10px)
 }

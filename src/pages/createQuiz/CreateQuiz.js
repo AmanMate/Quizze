@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 // import { string } from "i/lib/util";
 
 export default function Mymodal({ closeModal }) {
+  const [corectValue, setCorectValue] = useState(0);
   const [numOfOpotion, setnumOfOpotion] = useState(1);
   const [activeStep, setActiveStep] = useState(0);
   const [quizName, setQuizName] = useState("");
@@ -168,7 +169,9 @@ export default function Mymodal({ closeModal }) {
           <div
             class="quiz-name-type"
             style={
-              quizType === "qna" && activeStep === 1 ? { width: "700px" } : null
+              quizType === "qna" && activeStep === 1
+                ? { width: "700px", marginInline: "398px" }
+                : null
             }
           >
             {activeStep === 0 && (
@@ -273,7 +276,9 @@ export default function Mymodal({ closeModal }) {
                         <input
                           style={
                             quizType === "qna" && activeStep === 1
-                              ? { width: "660px" }
+                              ? {
+                                  width: "660px",
+                                }
                               : null
                           }
                           type="text"
@@ -316,39 +321,65 @@ export default function Mymodal({ closeModal }) {
                       <div class="qnaOptions">
                         <div>
                           {currentOptions.map((option, index) => (
-                            <div class="bb" key={index}>
-                              <p class="inline option"></p>
-                              {quizType == "qna" && (
-                                <input type="radio" class="radio"></input>
-                              )}
-                              {
-                                <div class="aa">
+                            <div key={index} style={{ display: "flex" }}>
+                              <div>
+                                <p class="inline option"></p>
+                                {quizType === "qna" && (
                                   <input
-                                    type="text"
-                                    class="text"
-                                    value={option}
-                                    onChange={(e) =>
-                                      handleOptionChange(index, e)
-                                    }
-                                    placeholder={
-                                      placeholder != "Text & Image url"
-                                        ? placeholder
-                                        : "Text"
-                                    }
+                                    type="radio"
+                                    name="correct"
+                                    class="radio"
                                   ></input>
-                                  {placeholder == "Text & Image url" && (
+                                )}
+                              </div>
+                              <div>
+                                {
+                                  <div style={{ display: "flex" }}>
                                     <input
+                                      checked={setCorectValue === 1}
+                                      style={
+                                        corectValue === 1
+                                          ? {
+                                              background: "green",
+                                              color: "white",
+                                            }
+                                          : {}
+                                      }
                                       type="text"
                                       class="text"
                                       value={option}
                                       onChange={(e) =>
                                         handleOptionChange(index, e)
                                       }
-                                      placeholder="Image url"
+                                      placeholder={
+                                        placeholder !== "Text & Image url"
+                                          ? placeholder
+                                          : "Text"
+                                      }
                                     ></input>
-                                  )}
-                                </div>
-                              }
+                                    {placeholder === "Text & Image url" && (
+                                      <input
+                                        checked={setCorectValue === 1}
+                                        style={
+                                          corectValue === 1
+                                            ? {
+                                                background: "green",
+                                                color: "white",
+                                              }
+                                            : {}
+                                        }
+                                        type="text"
+                                        class="text"
+                                        value={option}
+                                        onChange={(e) =>
+                                          handleOptionChange(index, e)
+                                        }
+                                        placeholder="Image url"
+                                      ></input>
+                                    )}
+                                  </div>
+                                }
+                              </div>
                             </div>
                           ))}
                           {quizType === "qna" && numOfOpotion === 1 && (
