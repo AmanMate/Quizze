@@ -14,7 +14,6 @@
     z-index: 3;
 }
 
-div.modal-container {}
 
 .quiz-name-type {
     background: white;
@@ -114,6 +113,7 @@ input.radio {
     left: 269px;
     gap: 0px;
     opacity: 0px;
+    margin: 35px 10px 10px 10px;
 
 }
 
@@ -126,16 +126,16 @@ div.question-option {
     opacity: 0px;
 }
 
-.action-buttons {}
-
 input.text {
     width: 296px;
-    height: 50px;
+    height: 45px;
     top: 361px;
     left: 311px;
     gap: 0px;
-    border-radius: 10px 0px 0px 0px;
+    border-radius: 10px 10px 10px 10px;
     opacity: 0px;
+    margin: 10px 10px 10px 10px;
+    padding: 2px 2px;
 
 }
 
@@ -219,9 +219,6 @@ p.quiz-type {
     text-align: center;
 }
 
-button.qna-button {}
-
-.optionType {}
 
 .render,
 .first-render {
@@ -317,7 +314,7 @@ input[type="radio"]:checked::after {
 
 .text {
     margin-right: 10px;
-    width: 215px !important;
+    width: 296px !important;
 }
 
 .qnaOptions {
@@ -328,3 +325,34 @@ input[type="radio"]:checked::after {
 .radio {
     transform: translateY(-10px)
 }
+
+button.uil--trash-alt {
+    display: inline-block;
+    width: 70px;
+    --svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23000' d='M10 18a1 1 0 0 0 1-1v-6a1 1 0 0 0-2 0v6a1 1 0 0 0 1 1M20 6h-4V5a3 3 0 0 0-3-3h-2a3 3 0 0 0-3 3v1H4a1 1 0 0 0 0 2h1v11a3 3 0 0 0 3 3h8a3 3 0 0 0 3-3V8h1a1 1 0 0 0 0-2M10 5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v1h-4Zm7 14a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1V8h10Zm-3-1a1 1 0 0 0 1-1v-6a1 1 0 0 0-2 0v6a1 1 0 0 0 1 1'/%3E%3C/svg%3E");
+    background-color: currentColor;
+    -webkit-mask-image: var(--svg);
+    mask-image: var(--svg);
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-size: 60% 60%;
+    mask-size: 60% 60%;
+    background: #D60000;
+    margin: 10px 10px;
+
+  }
+
+ 
+  .custom-input {
+    width: 250px;
+  }
+  
+  .Shareable_link{
+    background-color: #EDEDED;
+    ;
+  }
+
+  .Share{
+    background: #60B84B;
+    ;
+  }

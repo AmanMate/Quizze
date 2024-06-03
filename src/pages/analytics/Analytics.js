@@ -5,6 +5,7 @@ import "./Analytics.css";
 import { Link } from "react-router-dom";
 
 const Dashboard = () => {
+  const email = useState("")
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -12,7 +13,7 @@ const Dashboard = () => {
   useEffect(() => {
       const fetchData = async () => {
           try {
-              const response = await axios.get('http://127.0.0.1:4000/analytics/getAllQuiz?user_email=a@gmail.com');
+              const response = await axios.get(`http://127.0.0.1:4000/analytics/getAllQuiz?user_email=${email}`);
               console.log(response.data)
               setData(response.data);
           } catch (error) {
@@ -21,8 +22,10 @@ const Dashboard = () => {
             setLoading(false);
         }
       };
-      fetchData();
-  }, []);
+      if(email){
+            fetchData();
+          }
+        }, [email]);
 
   if (loading) {
     return <div>Loading...</div>;
@@ -31,11 +34,6 @@ const Dashboard = () => {
   if (error) {
     return <div>Error: {error.message}</div>;
   }
-
-  // const handleEdit = (id) => {
-  //   // code to handle edit action
-  //   console.log(`Edit quiz with id ${id}`);
-  // }
   
   const handleDelete = (id) => {
     // code to handle delete action

@@ -22,3 +22,23 @@
 button {
     cursor: pointer;
 }
+
+
+/* .timer-option button {
+    margin: 0 10px;
+    padding: 8px 16px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 4px;
+} */
+
+.timer-option button.active {
+    background-color: red; /* Change the color for active buttons */
+    color: white;
+}
+
+.timer-option button:first-child {
+    background-color: red; /* Set default color for OFF button */
+}
