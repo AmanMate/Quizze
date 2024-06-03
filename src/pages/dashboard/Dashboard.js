@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 const Dashboard = () => {
+  const email = useState("")
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -11,7 +12,7 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://127.0.0.1:4000/dashboard/getDetails?user_email=a@gmail.com');
+        const response = await axios.get(`http://127.0.0.1:4000/dashboard/getDetails?user_email=${email}`);
         console.log(response.data);
         setData(response.data);
       } catch (error) {
@@ -20,8 +21,10 @@ const Dashboard = () => {
         setLoading(false);
       }
     };
-    fetchData();
-  }, []);
+    if(email){
+      fetchData();
+    }
+  }, [email]);
 
   if (loading) {
     return <div>Loading...</div>;

@@ -1,28 +1,41 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import Navbar from "../../components/Navbar";
-import { Link } from "react-router-dom";
-import "./Timer.css";
+import React, { useState } from 'react';
+import './Timer.css';
 
 const TimerComponent = () => {
-    const [data, setData] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+    const [timerDuration, setTimerDuration] = useState(0);
+    const [activeButton, setActiveButton] = useState('off');
 
-    const logOnClick= () => {
-        console.log('1');
-    }
+    const handleStartTimer = (duration) => {
+        setTimerDuration(duration);
+        setActiveButton(duration > 0 ? duration + ' sec' : 'off');
+        // Start timer logic
+    };
+
     return (
-        <div class="Timer-container">
+        <div className="Timer-container">
             <div className='timer-option'>
                 <h3>Timer</h3>
-                <button onClick={() => logOnClick()}>OFF</button>
-                <button onClick={() => logOnClick()}>5 sec</button>
-                <button onClick={() => logOnClick()}>10 sec</button>
+                <button
+                    className={activeButton === 'off' ? 'active' : ''}
+                    onClick={() => handleStartTimer(0)}
+                >
+                    OFF
+                </button>
+                <button
+                    className={activeButton === '5 sec' ? 'active' : ''}
+                    onClick={() => handleStartTimer(5)}
+                >
+                    5 sec
+                </button>
+                <button
+                    className={activeButton === '10 sec' ? 'active' : ''}
+                    onClick={() => handleStartTimer(10)}
+                >
+                    10 sec
+                </button>
             </div>
         </div>
     );
-}
-export default function Timer() {
-    return <TimerComponent />;;
-}
+};
+
+export default TimerComponent;

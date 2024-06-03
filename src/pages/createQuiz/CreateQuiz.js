@@ -21,7 +21,8 @@ export default function Mymodal({ closeModal }) {
   // const [quizId, setQuizId] = useState("");
   const [questions, setQuestions] = useState([]);
   const [currentQuestion, setCurrentQuestion] = useState("");
-  const [currentOptions, setCurrentOptions] = useState([""]);
+  const [currentOptions, setCurrentOptions] = useState(["",""]);
+  const [correctIndex, setCorrectIndex] = useState(null);
 
   const [optionType, setOptionType] = useState("text");
   const [numOfQuestion, setnumOfQuestion] = useState(1);
@@ -38,10 +39,10 @@ export default function Mymodal({ closeModal }) {
     setOption(value);
     setOptionType(value);
     const elements = document.getElementsByClassName("optionradio");
-    if (value == "text") {
+    if (value === "text") {
       console.log("text changed");
       setPlaceholder("Text");
-    } else if (value == "url") {
+    } else if (value === "url") {
       console.log("url changed");
       setPlaceholder("Image url");
     } else {
@@ -52,7 +53,7 @@ export default function Mymodal({ closeModal }) {
 
   const handleClick = (quizTypeARG) => {
     setQuizType(quizTypeARG);
-    if (quizTypeARG == "poll") {
+    if (quizTypeARG === "poll") {
       setCurrentOptions(["", "", "", ""]);
     }
   };
@@ -64,9 +65,9 @@ export default function Mymodal({ closeModal }) {
     setQuestions(newQuestions);
   };
 
-  const handleOptionChange = (index, e) => {
+  const handleOptionChange = (index, event) => {
     const newOptions = [...currentOptions];
-    newOptions[index] = e.target.value;
+    newOptions[index] = event.target.value;
     setCurrentOptions(newOptions);
   };
 
@@ -90,12 +91,26 @@ export default function Mymodal({ closeModal }) {
   };
 
   const handleAddOption = () => {
-    setCurrentOptions((prevOptions) => [...prevOptions, ""]);
-    console.log(currentOptions.length);
-    if (currentOptions.length >= 3) {
-      setnumOfOpotion(0);
+    if (currentOptions.length < 4) { // Limit to a total of 4 options
+      setCurrentOptions([...currentOptions, '']);
     }
   };
+
+  const handleDeleteOption = (index) => {
+    if (currentOptions.length > 2) {
+      const newOptions = currentOptions.filter((_, i) => i !== index);
+      setCurrentOptions(newOptions);
+      if (index === correctIndex) {
+        setCorrectIndex(null); // Reset correctIndex if the correct option is deleted
+      } else if (index < correctIndex) {
+        setCorrectIndex(correctIndex - 1); // Adjust correctIndex if an option before it is deleted
+      }
+    }
+  };
+
+  const handleSetCorrectOption = (index) => {
+    setCorrectIndex(index);
+  };  
 
   const handleContinueClick = () => {
     if (activeStep === 0) {
@@ -107,11 +122,6 @@ export default function Mymodal({ closeModal }) {
         { question: currentQuestion, options: currentOptions },
       ]);
       setActiveStep((prevStep) => prevStep + 1);
-      if (activeStep === 1.1) {
-        setActiveStep((prevStep) => prevStep + 1);
-      } else if (activeStep === 1.2) {
-        setActiveStep((prevStep) => prevStep + 1);
-      }
     }
     if (continueToNextStep) {
       // Continue to the next step
@@ -129,39 +139,50 @@ export default function Mymodal({ closeModal }) {
     setContinueToNextStep(true);
   };
 
-  async function QnAClick(e) {
-    e.preventDefault();
+  const YourComponent = ({ activeStep, shareableLink }) => {
+  const [linkCopied, setLinkCopied] = useState(false);
 
-    try {
-      await axios("http://localhost:4000/createquiz/qna", {
-        action: " ",
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        data: JSON.stringify({
-          questions: [
-            {
-              // user_email: userEmail,
-              // quiz_id: quizId,
-              quiz_name: quizName,
-              quiz_type: quizType,
-              question: String,
+  const handleShareButtonClick = () => {
+    navigator.clipboard.writeText(shareableLink)
+      .then(() => setLinkCopied(true))
+      .catch((error) => console.error('Failed to copy shareable link: ', error));
+  };
 
-              options: [
-                {
-                  option: String,
-                  iscorrect: Boolean,
-                },
-              ],
-            },
-          ],
-        }),
-      });
-    } catch (e) {
-      console.log(e);
-    }
+  // async function QnAClick(e) {
+  //   e.preventDefault();
+
+  //   try {
+  //     await axios("http://localhost:4000/createquiz/qna", {
+  //       action: " ",
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       data: JSON.stringify({
+  //         questions: [
+  //           {
+  //             // user_email: userEmail,
+  //             // quiz_id: quizId,
+  //             quiz_name: quizName,
+  //             quiz_type: quizType,
+  //             question: String,
+
+  //             options: [
+  //               {
+  //                 option: String,
+  //                 iscorrect: Boolean,
+  //               },
+  //             ],
+  //           },
+  //         ],
+  //       }),
+  //     });
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  // }
   }
+
   return (
     <div>
       <div class="modal-wrapper">
@@ -273,18 +294,19 @@ export default function Mymodal({ closeModal }) {
                         </div>
                       </div>
                       <div class="inline-question ">
-                        <input
-                          style={
-                            quizType === "qna" && activeStep === 1
-                              ? {
-                                  width: "660px",
-                                }
-                              : null
-                          }
-                          type="text"
-                          onChange={(e) => handleQuestionChange}
-                          placeholder="Q & A Question"
-                        ></input>
+                      <input
+                        style={
+                          quizType === "qna" && activeStep === 1
+                            ? {
+                                width: "660px",
+                              }
+                            : null
+                        }
+                        type="text"
+                        onChange={(e) => handleQuestionChange(e)} 
+                        placeholder={quizType === "qna" ? "Q & A Question" : "Poll Question"}  
+                      ></input>
+
                       </div>
                       <div class="optionType">
                         <p class="optionfont">Option Type</p>
@@ -295,7 +317,7 @@ export default function Mymodal({ closeModal }) {
                             name="optionradio"
                             value="text"
                             onChange={handleOptionTypeChange}
-                            checked={placeholder == "Text"}
+                            checked={placeholder === "Text"}
                           ></input>
                           <label>Text</label>
                           <input
@@ -319,101 +341,71 @@ export default function Mymodal({ closeModal }) {
                     </div>
                     <div class="options">
                       <div class="qnaOptions">
-                        <div>
-                          {currentOptions.map((option, index) => (
-                            <div key={index} style={{ display: "flex" }}>
-                              <div>
-                                <p class="inline option"></p>
-                                {quizType === "qna" && (
-                                  <input
-                                    type="radio"
-                                    name="correct"
-                                    class="radio"
-                                  ></input>
-                                )}
-                              </div>
-                              <div>
-                                {
-                                  <div style={{ display: "flex" }}>
-                                    <input
-                                      checked={setCorectValue === 1}
-                                      style={
-                                        corectValue === 1
-                                          ? {
-                                              background: "green",
-                                              color: "white",
-                                            }
-                                          : {}
-                                      }
-                                      type="text"
-                                      class="text"
-                                      value={option}
-                                      onChange={(e) =>
-                                        handleOptionChange(index, e)
-                                      }
-                                      placeholder={
-                                        placeholder !== "Text & Image url"
-                                          ? placeholder
-                                          : "Text"
-                                      }
-                                    ></input>
-                                    {placeholder === "Text & Image url" && (
-                                      <input
-                                        checked={setCorectValue === 1}
-                                        style={
-                                          corectValue === 1
-                                            ? {
-                                                background: "green",
-                                                color: "white",
-                                              }
-                                            : {}
-                                        }
-                                        type="text"
-                                        class="text"
-                                        value={option}
-                                        onChange={(e) =>
-                                          handleOptionChange(index, e)
-                                        }
-                                        placeholder="Image url"
-                                      ></input>
-                                    )}
-                                  </div>
+                      <div>
+                      {currentOptions.map((option, index) => (
+                        <div key={index} style={{ display: "flex", alignItems: "center" }}>
+                          <div>
+                            <p className="inline option"></p>
+                            {quizType === "qna" && (
+                              <input
+                                type="radio"
+                                name="correct"
+                                className="radio"
+                                checked={index === correctIndex}
+                                onChange={() => handleSetCorrectOption(index)}
+                              />
+                            )}
+                          </div>
+                          <div>
+                            <div style={{ display: "flex", alignItems: "center" }}>
+                              <input
+                                style={{
+                                  width: "250px",
+                                  background: index === correctIndex ? "green" : "",
+                                  color: index === correctIndex ? "white" : "",
+                                }}
+                                type="text"
+                                className="text"
+                                value={option}
+                                onChange={(e) => handleOptionChange(index, e)}
+                                placeholder={
+                                  placeholder !== "Text & Image url"
+                                    ? placeholder
+                                    : "Text"
                                 }
-                              </div>
+                              />
+                              {placeholder === "Text & Image url" && (
+                                <input
+                                  style={{
+                                    width: "250px",
+                                    background: index === correctIndex ? "green" : "",
+                                    color: index === correctIndex ? "white" : "",
+                                  }}
+                                  type="text"
+                                  className="text"
+                                  value={option}
+                                  onChange={(e) => handleOptionChange(index, e)}
+                                  placeholder="Image url"
+                                />
+                              )}
+                              {quizType === "qna" && index >= 2 && (
+                                <button
+                                  className="uil--trash-alt"
+                                  onClick={() => handleDeleteOption(index)}
+                                >
+                                  Delete
+                                </button>
+                              )}
                             </div>
-                          ))}
-                          {quizType === "qna" && numOfOpotion === 1 && (
-                            <button onClick={handleAddOption}>
-                              Add Option
-                            </button>
-                          )}
+                          </div>
                         </div>
+                      ))}
+                      {quizType === "qna" && currentOptions.length < 4 && (
+                        <button onClick={handleAddOption}>Add Option</button>
+                      )}
+                    </div>
                         <div>{quizType === "qna" && <Timer />}</div>
                       </div>
-
-                      {/* {activeStep === 1.1 && (
-                        <div class="qnaOptions">
-                          {currentOptions.map((option, index) => (
-                            <div key={index}>
-                              <p class="inline option"></p>
-                                 <input type="radio" class="radio"></input>
-                                 <input type="text"  class="text" value={option} onChange={(e) => handleOptionChange(index, e)} placeholder="Text"></input>
-                            </div>
-                          
-                          ))}
-                      <button onClick={handleAddOption}>Add Option</button> 
-                    </div>
-                  )}  
-                      {activeStep === 1.2 && (
-                        <div class="pollOptions">
-                          {currentOptions.map((option, index) => (
-                            <div key={index}>
-                              <p class="inline option"></p>
-                                 <input type="text"  class="text" value={option} onChange={(e) => handleOptionChange(index, e)} placeholder="Text"></input>
-                            </div>
-                          ))}
-                    </div>
-                  )}   */}
                     </div>
                   </div>
                   <Link to="/dashboard">
@@ -437,7 +429,7 @@ export default function Mymodal({ closeModal }) {
                 <div class="action-buttons">
                   <div class="questions">
                     <p class="published">Congrats your Quiz is Published! </p>
-                    <p>Shareable link: {shareableLink}</p>
+                    <p class="Shareable_link"> {shareableLink}</p>
                   </div>
 
                   <button class="Share" onClick={() => {}}>
