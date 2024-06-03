@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./UserPage.css";
+import "./interface.css";
 
 export default function UserPage() {
   const [currentState, setCurrentState] = useState("state3"); // Initial state

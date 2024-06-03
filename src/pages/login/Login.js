@@ -29,6 +29,7 @@ export default function Login() {
           confirmpassword: password,
         }),
       });
+      setActiveForm("logIn");
     } catch (e) {
       console.log(e);
     }

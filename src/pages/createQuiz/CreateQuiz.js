@@ -59,9 +59,9 @@ export default function Mymodal({ closeModal }) {
   };
 
   const handleQuestionChange = (index, e) => {
-    setCurrentQuestion(e.target.value);
+    setCurrentQuestion(e);
     const newQuestions = [...questions];
-    newQuestions[index] = e.target.value;
+    newQuestions[index] = e;
     setQuestions(newQuestions);
   };
 
@@ -147,41 +147,38 @@ export default function Mymodal({ closeModal }) {
       .then(() => setLinkCopied(true))
       .catch((error) => console.error('Failed to copy shareable link: ', error));
   };
+}
 
-  // async function QnAClick(e) {
-  //   e.preventDefault();
 
-  //   try {
-  //     await axios("http://localhost:4000/createquiz/qna", {
-  //       action: " ",
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       data: JSON.stringify({
-  //         questions: [
-  //           {
-  //             // user_email: userEmail,
-  //             // quiz_id: quizId,
-  //             quiz_name: quizName,
-  //             quiz_type: quizType,
-  //             question: String,
-
-  //             options: [
-  //               {
-  //                 option: String,
-  //                 iscorrect: Boolean,
-  //               },
-  //             ],
-  //           },
-  //         ],
-  //       }),
-  //     });
-  //   } catch (e) {
-  //     console.log(e);
-  //   }
-  // }
+  async function QnAClick(e) {
+    
+  
+    try {
+      const response = await axios.post('http://localhost:4000/createquiz/qna', {
+        user_email: "", // Provide the user's email
+        quiz_id: "", // Provide the quiz ID if available
+        quiz_name: "", // Provide the quiz name
+        quiz_type: "", // Provide the quiz type
+        questions: [
+          {
+            question: "", // Provide the question text
+  
+            options: [
+              {
+                option: "", // Provide the option text
+                iscorrect: true, // Indicate whether the option is correct or not
+              },
+            ],
+          },
+        ],
+      });
+  
+      console.log('Response from Express:', response.data);
+    } catch (error) {
+      console.error('Error sending data to Express:', error);
+    }
   }
+
 
   return (
     <div>
@@ -237,7 +234,10 @@ export default function Mymodal({ closeModal }) {
                 </Link>
                 <button
                   class="continue"
-                  onClick={handleContinueClick}
+                  onClick={() => {
+                    handleContinueClick();
+                    QnAClick();
+                  }}
                   disabled={!quizType}
                 >
                   Continue
@@ -419,6 +419,7 @@ export default function Mymodal({ closeModal }) {
                     onClick={() => {
                       handleCreateQuiz();
                       handleContinueClick();
+                      QnAClick();
                     }}
                   >
                     Create Quiz
