@@ -1,14 +1,24 @@
-.Timer-container{
-    
+.Timer-container h3 {
+    text-align: center;
 }
-.timer-option{
-    /* width: 100px; */
-    width: 300px;
-    border: 5px solid green;
+
+.timer-option {
+
+    width: 250px;
+    /* border: 5px solid green; */
     display: flex;
     flex-direction: column;
     border-radius: 10px;
+    font-weight: 500;
+    font-size: 18px;
+    align-items: center;
 }
-button{
+
+.timer-option button {
+    width: 97px;
+    height: 35px;
+}
+
+button {
     cursor: pointer;
 }

@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 // import { string } from "i/lib/util";
 
 export default function Mymodal({ closeModal }) {
-  const [numOfOpotion, setnumOfOpotion] = useState(0);
+  const [numOfOpotion, setnumOfOpotion] = useState(1);
   const [activeStep, setActiveStep] = useState(0);
   const [quizName, setQuizName] = useState("");
   const [quizType, setQuizType] = useState(null);
@@ -165,7 +165,12 @@ export default function Mymodal({ closeModal }) {
     <div>
       <div class="modal-wrapper">
         <div class="modal-container">
-          <div class="quiz-name-type">
+          <div
+            class="quiz-name-type"
+            style={
+              quizType === "qna" && activeStep === 1 ? { width: "700px" } : null
+            }
+          >
             {activeStep === 0 && (
               <div class="action-buttons">
                 <input
@@ -266,6 +271,11 @@ export default function Mymodal({ closeModal }) {
                       </div>
                       <div class="inline-question ">
                         <input
+                          style={
+                            quizType === "qna" && activeStep === 1
+                              ? { width: "660px" }
+                              : null
+                          }
                           type="text"
                           onChange={(e) => handleQuestionChange}
                           placeholder="Q & A Question"
@@ -304,27 +314,15 @@ export default function Mymodal({ closeModal }) {
                     </div>
                     <div class="options">
                       <div class="qnaOptions">
-                        {quizType == "qna" && <Timer />}
-                        {currentOptions.map((option, index) => (
-                          <div class="bb" key={index}>
-                            <p class="inline option"></p>
-                            {quizType == "qna" && (
-                              <input type="radio" class="radio"></input>
-                            )}
-                            {
-                              <div class="aa">
-                                <input
-                                  type="text"
-                                  class="text"
-                                  value={option}
-                                  onChange={(e) => handleOptionChange(index, e)}
-                                  placeholder={
-                                    placeholder != "Text & Image url"
-                                      ? placeholder
-                                      : "Text"
-                                  }
-                                ></input>
-                                {placeholder == "Text & Image url" && (
+                        <div>
+                          {currentOptions.map((option, index) => (
+                            <div class="bb" key={index}>
+                              <p class="inline option"></p>
+                              {quizType == "qna" && (
+                                <input type="radio" class="radio"></input>
+                              )}
+                              {
+                                <div class="aa">
                                   <input
                                     type="text"
                                     class="text"
@@ -332,16 +330,34 @@ export default function Mymodal({ closeModal }) {
                                     onChange={(e) =>
                                       handleOptionChange(index, e)
                                     }
-                                    placeholder="Image url"
+                                    placeholder={
+                                      placeholder != "Text & Image url"
+                                        ? placeholder
+                                        : "Text"
+                                    }
                                   ></input>
-                                )}
-                              </div>
-                            }
-                          </div>
-                        ))}
-                        {quizType == "qna" && (
-                          <button onClick={handleAddOption}>Add Option</button>
-                        )}
+                                  {placeholder == "Text & Image url" && (
+                                    <input
+                                      type="text"
+                                      class="text"
+                                      value={option}
+                                      onChange={(e) =>
+                                        handleOptionChange(index, e)
+                                      }
+                                      placeholder="Image url"
+                                    ></input>
+                                  )}
+                                </div>
+                              }
+                            </div>
+                          ))}
+                          {quizType === "qna" && numOfOpotion === 1 && (
+                            <button onClick={handleAddOption}>
+                              Add Option
+                            </button>
+                          )}
+                        </div>
+                        <div>{quizType === "qna" && <Timer />}</div>
                       </div>
 
                       {/* {activeStep === 1.1 && (
@@ -375,6 +391,7 @@ export default function Mymodal({ closeModal }) {
                     </button>
                   </Link>
                   <button
+                    style={quizType === "qna" ? { marginLeft: "230px" } : null}
                     class="continue"
                     onClick={() => {
                       handleCreateQuiz();
